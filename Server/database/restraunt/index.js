@@ -25,6 +25,9 @@ const RestrauntSchema = new mongoose.Schema({
         ref: "Reviews"
     }],
     photos: {type: mongoose.Types.ObjectId, ref: "Images"}
+},
+{
+    timestamps: true;
 });
 
 export const RestrauntModel = mongoose.model("Restraunts", RestrauntSchema);
