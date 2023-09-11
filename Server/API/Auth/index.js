@@ -17,20 +17,8 @@ Method:         POST
 Router.post("/signup", async(request,response) => {
     try{
         const { email, password, phoneNumber, fullname } = request.body.credentials;
-
-        //check whether email or phone number exists
-        const checkUserByEmail = await UserModel.findOne({ email });
-        const checkUserByPhone = await UserModel.findOne({ phoneNumber });
-
-        //if email or phone number exists then 
-        if(checkUserByEmail || checkUserByPhone) {
-            return response.json({error: "User already exists"});
-        }
-
-        //hashing and salting
-        const bcryptSalt = await bcrypt.genSalt(8);
-        const hashedPassword = await bcrypt.hash(password, bcryptSalt);
-
+        await UserModel.findEmailAndPhone(email,phoneNumber);
+      
         //Mongo DB 
         await UserModel.create({
             ...request.body.credentials,
