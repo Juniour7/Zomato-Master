@@ -16,22 +16,36 @@ Method:         POST
 
 Router.post("/signup", async(request,response) => {
     try{
-        const {email, phoneNumber, password, fullname} = request.body.credentials;
-        await UserModel.findEmailAndPhone(email, phoneNumber);
-
-        //hashing and salting
-        const bcryptSalt = await bcrypt.genSalt(8);
-        const hashedPassword = await bcrypt.hash(password, bcryptSalt);
+        await UserModel.findEmailAndPhone(request.body.credentials);
 
         //Mongo DB 
-        await UserModel.create({
-            ...request.body.credentials,
-            password: hashedPassword
-        });
+        const newUser = await UserModel.create(request.body.credentials);
 
         //JWT Auth Token
         const token = newUser.generateJwtToken();
         return response.status(200).json({token});
+    } catch (error) {
+        return response.status(500).json({error: error.message});
+    }
+});
+
+
+/* 
+Route:          /signin
+Description:    Signin with email and password
+Params:         None
+Method:         POST
+*/
+
+Router.post("/signin", async(request,response) => {
+    try{
+        const user = await UserModel.findByEmailAndPassword(
+            request.body.credentials
+        );
+
+        //JWT Auth Token
+        const token = user.generateJwtToken();
+        return response.status(200).json({token, status: "Success"});
     } catch (error) {
         return response.status(500).json({error: error.message});
     }
