@@ -2,10 +2,10 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+const Router = express.Router();
+
 //Schema
 import { UserModel } from "../../database/users";
-
-const Router = express.Router();
 
 /* 
 Route:          /signup
@@ -16,9 +16,13 @@ Method:         POST
 
 Router.post("/signup", async(request,response) => {
     try{
-        const { email, password, phoneNumber, fullname } = request.body.credentials;
-        await UserModel.findEmailAndPhone(email,phoneNumber);
-      
+        const {email, phoneNumber, password, fullname} = request.body.credentials;
+        await UserModel.findEmailAndPhone(email, phoneNumber);
+
+        //hashing and salting
+        const bcryptSalt = await bcrypt.genSalt(8);
+        const hashedPassword = await bcrypt.hash(password, bcryptSalt);
+
         //Mongo DB 
         await UserModel.create({
             ...request.body.credentials,
@@ -26,7 +30,7 @@ Router.post("/signup", async(request,response) => {
         });
 
         //JWT Auth Token
-        const token = jwt.sign({user: {fullname, email}}, "ZomatoApp");
+        const token = newUser.generateJwtToken();
         return response.status(200).json({token});
     } catch (error) {
         return response.status(500).json({error: error.message});
