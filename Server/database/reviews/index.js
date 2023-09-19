@@ -14,7 +14,7 @@ const ReviewSchema = new mongoose.Schema({
     ]
 },
 {
-    timestamps: true;
+    timestamps: true
 });
 
 export const ReviewModel = mongoose.model("Reviews", ReviewSchema);

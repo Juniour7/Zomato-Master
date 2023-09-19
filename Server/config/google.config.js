@@ -13,22 +13,30 @@ export default (passport) => {
         },
         async(accessToken, refreshToken, profile, done) => {
             const newUser = {
+                //Creating New User
                 fullname: profile.displayName,
                 email: profile.emails[0].value,
                 profilePic: profile.photos[0].value
             };
             try {
-                const user = await UserModel.findOne({email: newUser.email})
-                const token = user.generateJwtToken();
+                //Check whether the user exists or not
+                const user = await UserModel.findOne({email: newUser.email});
                 if(user) {
+                        //generating jwt token
+                    const token = user.generateJwtToken();
+                    //return user
                     done(null, {user, token})
                 } else {
-                    const user = aaawait UserModel.create(newUser);
+                    //create new user
+                    const user = await UserModel.create(newUser);
                 }
             } catch(error) {
                 done(error, null);
             }
         }
         )
-    )
-}
+    );
+
+passport.serializeUser((userData,done) => done(null, {...userData}));
+passport.deserializeUser((id, done) => done(null, id));
+};
