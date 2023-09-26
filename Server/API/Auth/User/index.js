@@ -33,7 +33,7 @@ Method: PUT
 
 Router.put("/update", async(request,response) => {
     try {
-        const {_userId} = request.params;
+        const {userId} = request.params;
         const {userData} = request.body;
         const updateUserData = await UserModel.findByAndUpdate(
             userId,
@@ -47,3 +47,5 @@ Router.put("/update", async(request,response) => {
 
     }
 });
+
+export default Router;

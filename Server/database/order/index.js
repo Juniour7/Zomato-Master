@@ -5,7 +5,7 @@ const OrderSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: "Users"
     },
-    oredrDetails: [
+    orderDetails: [
         {
             food: {type: mongoose.Types.ObjectId, ref: "Foods"},
             quantity: {type: Number, required: true},

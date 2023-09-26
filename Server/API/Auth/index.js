@@ -1,7 +1,7 @@
 import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import passport from "passport";
+//import passport from "passport";
 
 const Router = express.Router();
 
@@ -59,12 +59,12 @@ Params:         None
 Method:         Get
 */
 
-Router.get("/google", passport.authenticate("google", {
-    scope: [
-        "https://www.googleapis.com/auth/userinfo.profile",
-        "https://www.googleapis.com/auth/userinfo.email"
-    ],
-}));
+// Router.get("/google", passport.authenticate("google", {
+//     scope: [
+//         "https://www.googleapis.com/auth/userinfo.profile",
+//         "https://www.googleapis.com/auth/userinfo.email"
+//     ],
+// }));
 
 /* 
 Route:          /google/callback
@@ -73,10 +73,10 @@ Params:         None
 Method:         Get
 */
 
-Router.get("/google/callback", passport.authenticate("google", {failureRedidrect: "/"}),
-(request,response) => {
-    return response.json({token: request.session.passport.user.token});
-}
-);
+// Router.get("/google/callback", passport.authenticate("google", {failureRedidrect: "/"}),
+// (request,response) => {
+//     return response.json({token: request.session.passport.user.token});
+// }
+// );
 
 export default Router;
