@@ -4,10 +4,11 @@ require("dotenv").config();
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
-//import passport from "passport";
+import passport from "passport";
 
 //google Auth
 //import googleAuthConfig from "./config/google.config";
+import routeConfig from "./config/route.config";
 
 //API
 import Auth from "./API/Auth";
@@ -32,6 +33,7 @@ zomato.use(helmet());
 
 //passport configuration
 //googleAuthConfig(passport);
+routeConfig(passport);
 
 //For aplication routes
 //The route for this will be localhost:4000/auth/signup signup is included in th auth folder

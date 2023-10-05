@@ -8,6 +8,9 @@ const Router = express.Router();
 //Schema
 import { UserModel } from "../../database/users";
 
+//validation
+import {ValidateSignup} from "../../validation/auth";
+
 /* 
 Route:          /signup
 Description:    Sign up with email and password
@@ -17,6 +20,8 @@ Method:         POST
 
 Router.post("/signup", async(request,response) => {
     try{
+        await ValidateSignup(request.body.credentials);
+        
         await UserModel.findEmailAndPhone(request.body.credentials);
 
         //Mongo DB 
