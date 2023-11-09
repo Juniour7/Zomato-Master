@@ -1,9 +1,11 @@
 import React from "react";
 
 //components
-import NavBar from "../NavBar/index";
-import PadNavBar from "../PadNavBar";
-import LgNav from "../LgNavBar";
+import NavBar from "../components/NavBar";
+import PadNavBar from "../components/PadNavBar";
+import LgNav from "../components/LgNavBar";
+import FoodTab from "../components/FoodTab";
+import Delivery from "../components/Delivery/index";
 
 
 const HomeLayout = (props) => {
@@ -17,6 +19,7 @@ const HomeLayout = (props) => {
             <div className="container mx-auto">
                 <LgNav />
             </div>
+            <FoodTab />
         </>
     );
 };
